@@ -4,8 +4,8 @@ struct Shape {
     size_t x;
     size_t y;
 
-    Shape(size_t size_x = 1, size_t size_y = 1) {
-        x = size_x;
-        y = size_y;
+    Shape(size_t x_ = 1, size_t y_ = 1) {
+        x = x_;
+        y = y_;
     }
 };
