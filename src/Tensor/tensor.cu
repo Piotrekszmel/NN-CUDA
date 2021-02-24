@@ -72,6 +72,6 @@ const float& Tensor::operator[](const int idx) const {
     return h_data.get()[idx];
 }
 
-Shape Tensor::getShape() {
+Shape Tensor::getShape() const {
     return this->shape;
 }

@@ -22,7 +22,7 @@ public:
 
     void memCpy(CopyType ct = HostToDevice);
 
-    Shape getShape();
+    Shape getShape() const;
     
     float& operator[](const int idx);
     const float& operator[](const int idx) const;
