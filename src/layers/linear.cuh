@@ -7,7 +7,7 @@ public:
     Linear(std::string name, Shape W_shape);
     ~Linear() = default;
 
-    Tensor& forward(Tensor& input);
+    Tensor& forward(Tensor& A);
     Tensor& backward(Tensor& gradients, float lr = 0.01);
 
     int getSizeX() const;
@@ -29,8 +29,8 @@ private:
     void initWeights();
     void initBias();
 
-    void computeError(Tensor& dZ);
-    void computerOutput(Tensor& A);
-    void updateWeights(Tensor& dZ, float lr);
-    void updateBias(Tensor& dZ, float lr);
+    void computeError(Tensor& gradients);
+    void computeOutput(Tensor& A);
+    void updateWeights(Tensor& gradients, float lr);
+    void updateBias(Tensor& gradients, float lr);
 };
