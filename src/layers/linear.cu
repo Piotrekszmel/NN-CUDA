@@ -6,7 +6,7 @@
 #include "linear.cuh"
 #include "../utils/utils.cuh"
 
-__global__ void forwardKernel(float* W,
+__global__ void linearForwardKernel(float* W,
                               float* A,
                               float* b,
                               int w_size_x,
@@ -28,7 +28,7 @@ __global__ void forwardKernel(float* W,
     }
 }
 
-__global__ void backwardKernel(float* W,
+__global__ void linearBackwardKernel(float* W,
                              float* gradients,
                              int w_size_x,
                              int w_size_y,
@@ -124,7 +124,7 @@ Tensor& Linear::forward(Tensor& A) {
     dim3 blockSize(8, 8);
     dim3 gridSize((Z.getShape().x + blockSize.x - 1) / blockSize.x,
                    (Z.getShape().y + blockSize.y - 1) / blockSize.y);
-    forwardKernel<<<gridSize, blockSize>>>(W.d_data.get(),
+    linearForwardKernel<<<gridSize, blockSize>>>(W.d_data.get(),
                                            A.d_data.get(),
                                            b.d_data.get(),
                                            W.getShape().x,
@@ -150,7 +150,7 @@ void Linear::computeError(Tensor& gradients) {
     dim3 blockSize(8, 8);
     dim3 gridSize((A.getShape().x + blockSize.x - 1) / blockSize.x,
                   (A.getShape().y + blockSize.y - 1) / blockSize.y);
-    backwardKernel<<<gridSize, blockSize>>>(W.d_data.get(),
+    linearBackwardKernel<<<gridSize, blockSize>>>(W.d_data.get(),
                                             gradients.d_data.get(),
                                             W.getShape().x,
                                             W.getShape().y,
