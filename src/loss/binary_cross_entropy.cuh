@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Tensor./tensor.cuh"
+#include "../Tensor/tensor.cuh"
 
 class BinaryCrossEntropy {
 public:
