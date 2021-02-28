@@ -5,16 +5,16 @@
 #include <cassert>
 
 __global__ void BinaryCrossEntropyForwardKernel(float* y_pred, 
-                                         float* y_true,
-                                         int size,
-                                         float* cost)
+                                                float* y_true,
+                                                int size,
+                                                float* cost)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (idx < idx) {
+    if (idx < size) {
         float partial_cost = y_true[idx] * logf(y_pred[idx]) 
                            + (1.0f - y_true[idx]) * logf(1.0f - y_pred[idx]);
-        atomicAdd(cost, -partial_cost / size);
+        atomicAdd(cost, - partial_cost / size);
     }
 }
 
@@ -23,7 +23,7 @@ __global__ void BinaryCrossEntropyBackwardKernel(float* y_pred,
                                                  int size,
                                                  float* dY)
 {
-    int idx = blockIdx.x + blockDim.x + threadIdx.x;
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (idx < size) {
         dY[idx] = -1.0f * (y_true[idx] / y_pred[idx] 
