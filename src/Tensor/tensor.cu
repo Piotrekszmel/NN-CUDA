@@ -35,8 +35,6 @@ void Tensor::allocMem(Shape shape) {
     if (!d_alloc && !h_alloc) {
         this->shape = shape;
         allocMem();
-    } else {
-        printf("Memory already allocated!\n");
     }
 }
 
