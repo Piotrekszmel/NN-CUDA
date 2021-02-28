@@ -24,10 +24,10 @@ Tensor Net::forward(Tensor X) {
 }
 
 void Net::backward(Tensor y_pred, Tensor y_true) {
-    dY.allocMem();
+    dY.allocMem(y_pred.getShape());
 
     Tensor error = cost_fn.grad(y_pred, y_true, dY);
-
+    
     for (auto iter = this->layers.rbegin(); iter != this->layers.rend(); iter++) {
         error = (*iter)->backward(error, lr);
     }

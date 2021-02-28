@@ -1,9 +1,9 @@
 #include "relu.cuh"
 
 __global__ void reluForwardKernel(float* Z,
-                              int z_size_x,
-                              int z_size_y,
-                              float* A)
+                                  int z_size_x,
+                                  int z_size_y,
+                                  float* A)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -13,10 +13,10 @@ __global__ void reluForwardKernel(float* Z,
 }
 
 __global__ void reluBackwardKernel(float* Z,
-                               float* dA,
-                               int z_size_x,
-                               int z_size_y,
-                               float* dZ)
+                                   float* dA,
+                                   int z_size_x,
+                                   int z_size_y,
+                                   float* dZ)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -42,22 +42,22 @@ Tensor& ReLU::forward(Tensor& Z) {
     dim3 gridSize((Z.getShape().x * Z.getShape().y + blockSize.x - 1) / blockSize.x);
 
     reluForwardKernel<<<gridSize, blockSize>>>(Z.d_data.get(),
-                                           Z.getShape().x,
-                                           Z.getShape().y,
-                                           A.d_data.get());
+                                               Z.getShape().x,
+                                               Z.getShape().y,
+                                               A.d_data.get());
     return A;
 }
 
 Tensor& ReLU::backward(Tensor& dA, float lr) {
-    dZ.allocMem();
+    dZ.allocMem(Z.getShape());
 
     dim3 blockSize(256);
     dim3 gridSize((Z.getShape().x * Z.getShape().y + blockSize.x - 1) / blockSize.x);
 
     reluBackwardKernel<<<gridSize, blockSize>>>(Z.d_data.get(),
-                                            dA.d_data.get(),
-                                            Z.getShape().x,
-                                            Z.getShape().y,
-                                            dZ.d_data.get());
+                                                dA.d_data.get(),
+                                                Z.getShape().x,
+                                                Z.getShape().y,
+                                                dZ.d_data.get());
     return dZ;
 }
