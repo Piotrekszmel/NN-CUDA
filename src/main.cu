@@ -3,8 +3,8 @@
 
 #include "Net/net.cuh"
 #include "layers/linear.cuh"
-#include "layers/relu.cuh"
-#include "layers/sigmoid.cuh"
+#include "activations/relu.cuh"
+#include "activations/sigmoid.cuh"
 #include "loss/binary_cross_entropy.cuh"
 
 #include "Tensor/tensor.cuh"
@@ -18,16 +18,15 @@ int main()
 
     Coordinates dataset(100, 21);
     BinaryCrossEntropy cost_fn;
-
+    
     Net net;
     net.addLayer(new Linear("linear_1", Shape(2, 30)));
     net.addLayer(new ReLU("relu_1"));
     net.addLayer(new Linear("linear_2", Shape(30, 1)));
     net.addLayer(new Sigmoid("sigmoid_output"));
 
-
     Tensor Y;
-    for (int epoch = 0; epoch < 2100; epoch++) {
+    for (int epoch = 0; epoch < 1000; epoch++) {
         float cost = 0.0;
 
         for (int batch = 0; batch < dataset.getNumBatches() - 1; batch++) {
@@ -44,11 +43,13 @@ int main()
 
     Y = net.forward(dataset.getBatches().at(dataset.getNumBatches() - 1));
     Y.memCpy(DeviceToHost);
+    
+    dataset.saveToFile(dataset.getBatches().at(dataset.getNumBatches() - 1), Y);
 
     float accuracy = computeAccuracy(Y, dataset.getTargets().at(dataset.getNumBatches() - 1));
     
     std::cout << "Accuracy: " << accuracy << std::endl;
-
+    
     return 0;
 }
 
@@ -62,6 +63,8 @@ float computeAccuracy(const Tensor& predictions, const Tensor& targets) {
 			correct_predictions++;
 		}
 	}
-
+    
 	return static_cast<float>(correct_predictions) / m;
+    
+
 }
