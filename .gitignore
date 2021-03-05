@@ -1,1 +1,5 @@
 build/
+src/dataset/coordinates_output0.txt
+src/dataset/coordinates_output1.txt
+src/dataset/coordinates_target0.txt
+src/dataset/coordinates_target1.txt
