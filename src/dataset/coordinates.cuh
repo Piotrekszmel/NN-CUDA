@@ -1,6 +1,8 @@
 #pragma once 
 
+#include <fstream>
 #include <vector>
+#include <string>
 
 #include "../Tensor/tensor.cuh"
 
@@ -11,7 +13,10 @@ public:
     int getNumBatches();
     std::vector<Tensor>& getBatches();
     std::vector<Tensor>& getTargets();
-
+    void saveToFile(Tensor& batch,
+                    Tensor& labels,
+                    std::string path0 = "src/dataset/coordinates_output0.txt",
+                    std::string path1 = "src/dataset/coordinates_output1.txt");
 private:
     size_t batch_size;
     size_t num_batches;
