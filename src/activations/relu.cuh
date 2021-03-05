@@ -1,14 +1,15 @@
 #pragma once
 
-#include "layer.hpp"
+#include "../layers/layer.hpp"
 
-class Sigmoid : public Layer {
+class ReLU : public Layer {
 public:
-    Sigmoid(std::string name);
-    ~Sigmoid() = default;
+    ReLU(std::string name);
+    ~ReLU() = default;
 
     Tensor& forward(Tensor& Z);
     Tensor& backward(Tensor& dA, float lr = 0.01);
+
 private:
     Tensor A;
 
