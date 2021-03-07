@@ -83,8 +83,7 @@ __global__ void updateBiasKernel(float* gradients,
     if (idx < g_size_x * g_size_y) {
         int grad_x = idx % g_size_x;
         int grad_y = idx / g_size_x;
-        atomicAdd(&b[grad_y], 
-                  - lr * (gradients[grad_y * g_size_x + grad_x] / g_size_x));
+        b[grad_y] -= lr * (gradients[grad_y * g_size_x + grad_x] / g_size_x);
     }
 }
                                  
