@@ -14,16 +14,18 @@ Coordinates::Coordinates(size_t batch_size, size_t num_batches) :
 		targets[i].allocMem();
 
 		for (int k = 0; k < batch_size; k++) {
+			int offset = batches[i].getShape().x;
+			
 			batches[i][k] = static_cast<float>(rand()) / RAND_MAX - 0.5;
-			batches[i][batches[i].getShape().x + k] = static_cast<float>(rand()) / RAND_MAX - 0.5;;
-			if ( (batches[i][k] > 0 && batches[i][batches[i].getShape().x + k] > 0) ||
-				 ((batches[i][k] < 0 && batches[i][batches[i].getShape().x + k] < 0)) ) {
+			batches[i][k + offset] = static_cast<float>(rand()) / RAND_MAX - 0.5;;
+			if ( (batches[i][k] > 0 && batches[i][k + offset] > 0) ||
+				 ((batches[i][k] < 0 && batches[i][k + offset] < 0)) ) {
 				targets[i][k] = 1;
-				targets_one_f << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
+				targets_one_f << batches[i][k] << " " << batches[i][k + offset] << "\n";
 			}
 			else {
 				targets[i][k] = 0;
-				targets_zero_f << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
+				targets_zero_f << batches[i][k] << " " << batches[i][k + offset] << "\n";
 			}
 		}
 
@@ -54,11 +56,13 @@ void Coordinates::saveToFile(Tensor& batch,
 	std::ofstream targets_one_f(path1);
 
 	for (int k = 0; k < batch_size; k++) {
+		int offset = batch.getShape().x;
+
 		if (labels[k] >= 0.5) {
-			targets_one_f << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
+			targets_one_f << batch[k] << " " << batch[k + offset] << "\n";
 		}
 		else {
-			targets_zero_f << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
+			targets_zero_f << batch[k] << " " << batch[k + offset] << "\n";
 		}
 	}
 }
