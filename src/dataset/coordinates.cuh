@@ -15,8 +15,8 @@ public:
     std::vector<Tensor>& getTargets();
     void saveToFile(Tensor& batch,
                     Tensor& labels,
-                    std::string path0 = "src/dataset/coordinates_output0.txt",
-                    std::string path1 = "src/dataset/coordinates_output1.txt");
+                    std::string path0 = "src/dataset/coordinates_output_zero.txt",
+                    std::string path1 = "src/dataset/coordinates_output_one.txt");
 private:
     size_t batch_size;
     size_t num_batches;

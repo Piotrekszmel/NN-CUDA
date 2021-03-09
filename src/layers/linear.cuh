@@ -29,7 +29,7 @@ private:
     void initWeights();
     void initBias();
 
-    void computeError(Tensor& gradients);
+    void loss(Tensor& gradients);
     void computeOutput(Tensor& A);
     void updateWeights(Tensor& gradients, float lr);
     void updateBias(Tensor& gradients, float lr);

@@ -3,8 +3,8 @@
 Coordinates::Coordinates(size_t batch_size, size_t num_batches) :
 	batch_size(batch_size), num_batches(num_batches)
 {
-	std::ofstream f_0("src/dataset/coordinates_target0.txt");
-	std::ofstream f_1("src/dataset/coordinates_target1.txt");
+	std::ofstream targets_zero_f("src/dataset/coordinates_targets_one.txt");
+	std::ofstream targets_one_f("src/dataset/coordinates_targets_zero.txt");
 
 	for (int i = 0; i < num_batches; i++) {
 		batches.push_back(Tensor(Shape(batch_size, 2)));
@@ -19,19 +19,19 @@ Coordinates::Coordinates(size_t batch_size, size_t num_batches) :
 			if ( (batches[i][k] > 0 && batches[i][batches[i].getShape().x + k] > 0) ||
 				 ((batches[i][k] < 0 && batches[i][batches[i].getShape().x + k] < 0)) ) {
 				targets[i][k] = 1;
-				f_1 << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
+				targets_one_f << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
 			}
 			else {
 				targets[i][k] = 0;
-				f_0 << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
+				targets_zero_f << batches[i][k] << " " << batches[i][batches[i].getShape().x + k] << "\n";
 			}
 		}
 
 		batches[i].memCpy(HostToDevice);
 		targets[i].memCpy(HostToDevice);
 	}
-	f_0.close();
-	f_1.close();
+	targets_zero_f.close();
+	targets_one_f.close();
 }
 
 int Coordinates::getNumBatches() {
@@ -50,15 +50,15 @@ void Coordinates::saveToFile(Tensor& batch,
 							 Tensor& labels,
 							 std::string path0,
 							 std::string path1) {
-	std::ofstream f_0(path0);
-	std::ofstream f_1(path1);
+	std::ofstream targets_zero_f(path0);
+	std::ofstream targets_one_f(path1);
 
 	for (int k = 0; k < batch_size; k++) {
 		if (labels[k] >= 0.5) {
-			f_1 << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
+			targets_one_f << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
 		}
 		else {
-			f_0 << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
+			targets_zero_f << batch[k] << " " << batch[batch.getShape().x + k] << "\n";
 		}
 	}
 }

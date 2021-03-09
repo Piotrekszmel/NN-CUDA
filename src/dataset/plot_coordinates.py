@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def plot_dataset():
-    with open("src/dataset/coordinates_target0.txt") as f:
+    with open("src/dataset/coordinates_targets_zero.txt") as f:
         lines = f.readlines()
         x_0 = [float(line.split()[0]) for line in lines]
         y_0 = [float(line.split()[1]) for line in lines]
 
-    with open("src/dataset/coordinates_target1.txt") as f:
+    with open("src/dataset/coordinates_targets_one.txt") as f:
         lines = f.readlines()
         x_1 = [float(line.split()[0]) for line in lines]
         y_1 = [float(line.split()[1]) for line in lines]
@@ -20,12 +20,12 @@ def plot_dataset():
     plt.legend(loc="upper left", bbox_to_anchor=(1.005, 1))
 
 
-    with open("src/dataset/coordinates_output0.txt") as f:
+    with open("src/dataset/coordinates_output_zero.txt") as f:
         lines = f.readlines()
         x_0 = [float(line.split()[0]) for line in lines]
         y_0 = [float(line.split()[1]) for line in lines]
 
-    with open("src/dataset/coordinates_output1.txt") as f:
+    with open("src/dataset/coordinates_output_one.txt") as f:
         lines = f.readlines()
         x_1 = [float(line.split()[0]) for line in lines]
         y_1 = [float(line.split()[1]) for line in lines]

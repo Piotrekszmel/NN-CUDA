@@ -149,7 +149,7 @@ void Linear::computeOutput(Tensor& A) {
 Tensor& Linear::backward(Tensor& gradients, float lr) {
     dA.allocMem(A.getShape());
 
-    computeError(gradients);
+    loss(gradients);
     
     updateBias(gradients, lr);
     updateWeights(gradients, lr);
@@ -157,7 +157,7 @@ Tensor& Linear::backward(Tensor& gradients, float lr) {
     return dA;
 }
 
-void Linear::computeError(Tensor& gradients) {
+void Linear::loss(Tensor& gradients) {
     dim3 blockSize(8, 8);
     dim3 gridSize((A.getShape().x + blockSize.x - 1) / blockSize.x,
                   (A.getShape().y + blockSize.y - 1) / blockSize.y);
