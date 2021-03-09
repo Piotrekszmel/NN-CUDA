@@ -88,10 +88,9 @@ __global__ void updateBiasKernel(float* gradients,
 }
                                  
 
-Linear::Linear(std::string name, Shape W_shape)
+Linear::Linear(Shape W_shape)
     : W(W_shape), b(W_shape.y, 1)
 {
-    this->name = name;
     W.allocMem();
     b.allocMem();
     initWeights();
@@ -211,3 +210,6 @@ Tensor Linear::getBias() const {
     return b;
 }
 
+void Linear::info() {
+    std::cout << "Linear: W -> " << W.getShape() << "  b -> " << b.getShape() << "\n"; 
+}

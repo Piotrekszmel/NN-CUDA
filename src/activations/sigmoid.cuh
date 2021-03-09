@@ -4,11 +4,14 @@
 
 class Sigmoid : public Layer {
 public:
-    Sigmoid(std::string name);
+    Sigmoid() = default;
     ~Sigmoid() = default;
 
     Tensor& forward(Tensor& Z);
     Tensor& backward(Tensor& dA, float lr = 0.01);
+
+    void info();
+
 private:
     Tensor A;
 

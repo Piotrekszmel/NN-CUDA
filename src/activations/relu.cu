@@ -29,10 +29,6 @@ __global__ void reluBackwardKernel(float* Z,
     }
 }
 
-ReLU::ReLU(std::string name) {
-    this->name = name;
-}
-
 Tensor& ReLU::forward(Tensor& Z) {
     this->Z = Z;
 
@@ -60,4 +56,8 @@ Tensor& ReLU::backward(Tensor& dA, float lr) {
                                                 Z.getShape().y,
                                                 dZ.d_data.get());
     return dZ;
+}
+
+void ReLU::info() {
+    std::cout << "ReLU: A -> " << A.getShape() << "  Z -> " << Z.getShape() << "\n"; 
 }

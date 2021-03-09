@@ -30,10 +30,6 @@ __global__ void sigmoidBackwardKernel(float* Z,
     }
 }
 
-Sigmoid::Sigmoid(std::string name) {
-    this->name = name;
-}
-
 Tensor& Sigmoid::forward(Tensor& Z) {
     this->Z = Z;
     A.allocMem(Z.getShape());
@@ -60,4 +56,8 @@ Tensor& Sigmoid::backward(Tensor& dA, float lr) {
                                                    Z.getShape().y,
                                                    dZ.d_data.get());
     return dZ;
+}
+
+void Sigmoid::info() {
+    std::cout << "Sigmoid: A -> " << A.getShape() << "  Z -> " << Z.getShape() << "\n"; 
 }

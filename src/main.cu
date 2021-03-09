@@ -16,10 +16,10 @@ int main()
     srand(time(NULL));
 
     Net net;
-    net.addLayer(new Linear("linear_1", Shape(2, 30)));
-    net.addLayer(new ReLU("relu_1"));
-    net.addLayer(new Linear("linear_2", Shape(30, 1)));
-    net.addLayer(new Sigmoid("sigmoid_output"));
+    net.addLayer(new Linear(Shape(2, 30)));
+    net.addLayer(new ReLU());
+    net.addLayer(new Linear(Shape(30, 1)));
+    net.addLayer(new Sigmoid());
     
     net.train(100, 21, 1000);
 

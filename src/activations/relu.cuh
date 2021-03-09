@@ -4,11 +4,13 @@
 
 class ReLU : public Layer {
 public:
-    ReLU(std::string name);
+    ReLU() = default;
     ~ReLU() = default;
 
     Tensor& forward(Tensor& Z);
     Tensor& backward(Tensor& dA, float lr = 0.01);
+
+    void info();
 
 private:
     Tensor A;

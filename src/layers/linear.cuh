@@ -4,7 +4,7 @@
 
 class Linear : public Layer {
 public:
-    Linear(std::string name, Shape W_shape);
+    Linear(Shape W_shape);
     ~Linear() = default;
 
     Tensor& forward(Tensor& A);
@@ -15,6 +15,8 @@ public:
 
     Tensor getWeights() const;
     Tensor getBias() const;
+
+    void info();
 
 private:
     const float init_threshold_W = 0.01;
